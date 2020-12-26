@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 
 declare var iro: any;
 
+declare function sendRequest(): any;
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -14,8 +16,8 @@ export class HomePage {
 
   }
 
-  sendRequest() {
-    console.log("test")
+  sendApiRequest() {
+    sendRequest();
   }
 
 }

@@ -4,11 +4,14 @@ var colorPicker;
 function createColorPicker(){
 
     colorPicker = new iro.ColorPicker("#picker", {
-        // Set the size of the color picker
-        width: 320,
-        // Set the initial color to pure red
-        color: "#f00"
+        // color picker options
+        // Option guide: https://iro.js.org/guide.html#color-picker-options
+        width: 280,
+        color: "rgb(255, 0, 0)",
+        borderWidth: 1,
+        borderColor: "#fff",
     });
+
 }
 
 
