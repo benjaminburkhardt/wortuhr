@@ -39,7 +39,10 @@
                 "input": "src/global.scss"
               }
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/api.js",
+              "src/assets/js/iro.min.js"
+            ]
           },
           "configurations": {
             "production": {

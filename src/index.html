@@ -17,10 +17,13 @@
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <script src="assets/js/iro.min.js"></script>
+  <script src="assets/js/api.js"></script>
 </head>
 
-<body>
+<body onload="setTimeout('createColorPicker()', 500);">
   <app-root></app-root>
+
 </body>
 
 </html>

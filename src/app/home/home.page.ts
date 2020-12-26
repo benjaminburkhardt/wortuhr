@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+
+declare var iro: any;
 
 @Component({
   selector: 'app-home',
@@ -7,6 +10,12 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(private http: HttpClient) {
+
+  }
+
+  sendRequest() {
+    console.log("test")
+  }
 
 }
