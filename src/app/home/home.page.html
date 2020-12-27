@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Home
+      Meine Wortuhr
     </ion-title>
     <ion-button slot="secondary" color="none">
       <ion-icon name="wifi" style="color: green" ></ion-icon>
@@ -14,7 +14,7 @@
 
 
 
-<ion-content [fullscreen]="true" on-touchend="sendApiRequest()">
+<ion-content [fullscreen]="true" on-touchend="updateRGB()">
 
   <div id="container"  class="center">
     <h3>Farbe wählen</h3>
@@ -22,7 +22,7 @@
     <center><div id="picker"></div></center>
 <br>
 
-  <!--  <ion-button expand="block" (click)="sendApiRequest()">Senden</ion-button> -->
+    <ion-button expand="block" (click)="updateRGB()">Senden</ion-button>
 
   </div>
 

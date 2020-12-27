@@ -11,52 +11,88 @@ function createColorPicker(){
         borderWidth: 1,
         borderColor: "#fff",
     });
+}
+
+/**
+ * Reads parameters from picker and returns current values
+ * @returns {{r: *, b: *, g: *}}
+ */
+function getPickerParameters(){
+    var red = colorPicker.color.red + 100;
+    var green = colorPicker.color.green + 100;
+    var blue = colorPicker.color.blue + 100;
+    var brightness = Math.round((Math.round(colorPicker.color.hsv.v/100*255) / 255) * 100) + 100;
+
+    console.log("R "+red);
+    console.log("G "+green);
+    console.log("B "+blue);
+    console.log("BR "+brightness);
+
+    //var params = "?r="+red+"&g="+green+"&b="+blue+"&br="+brightness;
+
+    var params = {
+        r: red,
+        g: green,
+        b: blue}
+
+    return params;
+
+}
+
+// TODO: Trigger this as soon as picker is created!
+function updatePickerWithCurrentRgb(red, blue, green, brightness){
+    console.log(red)
+    colorPicker.color.red = red;
+    colorPicker.color.blue = blue;
+    colorPicker.color.green = green;
+   // TODO: Brightness!
 
 }
 
 
-function sendRequest() {
+// function sendRequest() {
+//
+//
+//     var red = colorPicker.color.red + 100;
+//     var green = colorPicker.color.green + 100;
+//     var blue = colorPicker.color.blue + 100;
+//     var brightness = Math.round((Math.round(colorPicker.color.hsv.v/100*255) / 255) * 100) + 100;
+//
+//     console.log("R "+red);
+//     console.log("G "+green);
+//     console.log("B "+blue);
+//     console.log("BR "+brightness);
+//
+//
+//     var rqUrl = 'http://wortuhs/pixelgraphic'
+//     var rqUrl2 = 'http://wortuhr/pixelgraphic'
+//
+//     var params = "?r="+red+"&g="+green+"&b="+blue+"&br="+brightness;
+//
+//     console.log("Endpoint: "+rqUrl+params)
+//
+//
+//     var response = httpGet(rqUrl+params);
+//     console.log(response)
+//
+//     switch (response){
+//
+//     }
+//
+// }
+
+// function httpGet(theUrl)
+// {
+//     var xmlHttp = new XMLHttpRequest();
+//     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+//
+//     try{
+//         xmlHttp.send( null );
+//         return xmlHttp.responseText;
+//     }catch (e){
+//         console.log(e);
+//         return
+//     }
+// }
 
 
-    var red = colorPicker.color.red+100;
-    var green = colorPicker.color.green +100;
-    var blue = colorPicker.color.blue +100;
-    var brightness = Math.round((Math.round(colorPicker.color.hsv.v/100*255) / 255) * 100)+100;
-
-    console.log(red);
-    console.log(green);
-    console.log(blue);
-    console.log(brightness);
-
-    const options = {
-        method: 'get',
-    params: {'r': red.toString(), 'g': green.toString(), 'b': blue.toString(), 'br' : brightness.toString() }
-    };
-
-    var rqUrl = 'http://wortuhs/pixelgraphic'
-    var rqUrl2 = 'http://wortuhr/pixelgraphic'
-
-    var params = "?r="+red+"&g="+green+"&b="+blue+"&br="+brightness;
-    console.log(rqUrl)
-    // cordova.plugin.http.sendRequest(rqUrl, options, function(response) {
-    //     // prints 200
-    //     console.log(response);
-    // }, function(response) {
-    //     // prints 403
-    //     console.log(response.status);
-    //
-    //     //prints Permission denied
-    //     console.log(response.error);
-    // });
-
-    httpGet(rqUrl+params);
-
-}
-
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
