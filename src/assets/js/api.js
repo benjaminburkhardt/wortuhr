@@ -43,19 +43,20 @@ function getPickerParameters(){
     return params;
 }
 
-// TODO: Trigger this as soon as picker is created!
+/**
+ * Update the picker in app with values from server
+ * @param red
+ * @param blue
+ * @param green
+ * @param brightness
+ */
 function updatePickerWithRgb(red, blue, green, brightness){
 
     colorPicker.color.red = red;
     colorPicker.color.blue = blue;
     colorPicker.color.green = green;
 
-    console.log("brightness: "+brightness)
-
-    colorPicker.color.hsv = { v: (brightness/255)*100 };
-
-
-    // TODO: Brightness!
-
+    console.log("received brightness: "+brightness)
+    colorPicker.color.hsv = { v: (brightness-100) };
 }
 
