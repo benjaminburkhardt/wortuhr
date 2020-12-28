@@ -1,83 +1,76 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import { LoadingController } from '@ionic/angular';
 
+import { Constants } from "../Constants";
 
 
 declare var iro: any;
-
 declare function sendRequest(): any;
 declare function getPickerParameters(): any;
-declare function updatePickerWithCurrentRgb(red, blue, green, brightness): any;
+declare function createColorPicker(): any;
+declare function updatePickerWithRgb(red, blue, green, brightness): any;
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit{
+
+  private reconnectingAlert: Promise<HTMLIonLoadingElement>;
+
+  ngOnInit(): void {
+    this.reconnectingAlert = this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Connecting...',
+    });
+  }
 
   constructor(private http: HttpClient, public loadingController: LoadingController) {}
 
+  /**
+   * Called right after UI is drawn
+   */
+  ngAfterContentInit() {
+    createColorPicker();
+    this.updatePickerWithCurrentRgb();
+
+    setInterval(() => {
+      this.checkWifiConnection()
+    }, 1000);
+  }
 
 
-
+  // ===================================
+  // Server Communication
+  // ===================================
 
   /**
-   * Update colors on ESP
+   * Send colors to ESP
    */
   updateRGB() {
 
-    var apiUrl = 'http://wortuhr/pixelgraphic'
+    var pickerParameters = getPickerParameters();
 
-    // Debugging
-    if(true) {
-      apiUrl = "http://localhost:8009"
-    }
-    var params = getPickerParameters();
-
-
-    console.log("Params from picker: ");
-    console.log(params);
-
-    this.http.get(apiUrl, {
-      params: params,
+    this.http.get(Constants.getServerAddr(), {
+      params: pickerParameters,
       observe: 'response'
     })
         .toPromise()
         .then(response => {
-          this.responseReceived(response, params);
-        })
-        .catch(console.log);
-
-  }
-
-
-  updatePickerWithCurrentRgb(){
-
-    var apiUrl = "http://localhost:8009"
-
-
-    this.http.get(apiUrl, {
-      observe: 'response'
-    })
-        .toPromise()
-        .then(response => {
-          var json = response.body;
-          updatePickerWithCurrentRgb(json["rgb"].r, json["rgb"].g, json["rgb"].b, json["rgb"].br);
+          this.responseHandler(response, pickerParameters);
         })
         .catch(console.log);
   }
-
 
   /**
-   * Handle Response
+   * Handle Response for updating RGB
    * @param response
    * @param params
    */
-  responseReceived(response: HttpResponse<any>, params){
+  responseHandler(response: HttpResponse<any>, params){
 
-    this.presentLoading()
 
     if(response.ok){
       // success
@@ -87,27 +80,106 @@ export class HomePage {
       // Check if response is correct
       if(json.rgb.r == params.r){
         console.log("RGB successfully set.")
-
-
       }
     }else{
       // fail
       console.log("Failed to set RGB. Server not available.")
+    }
+  }
+
+
+  /**
+   * Get preset colors from ESP
+   */
+  updatePickerWithCurrentRgb(){
+
+    console.log("Updating picker with server values...")
+
+    this.http.get(Constants.getServerAddr(), {
+      observe: 'response'
+    })
+        .toPromise()
+        .then(response => {
+          if(response.ok) {
+            var json = response.body
+            updatePickerWithRgb(json["rgb"].r, json["rgb"].g, json["rgb"].b, json["rgb"].br)
+          }
+        })
+        .catch(response => {
+          console.log("Server not available...")
+          // try again later
+          setTimeout(() => {
+            console.log("Trying again to load rgb from server...")
+            this.updatePickerWithCurrentRgb()
+          }, 1000);
+
+        });
+  }
+
+  /**
+   * Checks if connection is available and updates wifi icon
+   */
+  checkWifiConnection(){
+    this.http.get(Constants.getServerAddr(), {
+      observe: 'response'
+    })
+        .toPromise()
+        .then(response => {
+          if(response.ok) {
+            var json = response.body
+            this.updateWifiStatus(response.ok)
+          }
+        })
+        .catch(response => {
+          console.log("Server not available...")
+          this.updateWifiStatus(response.ok)
+          // try again later
+
+        });
+  }
+
+
+  // ===================================
+  // UI
+  // ===================================
+
+  updateWifiStatus(connected: boolean){
+
+    var newClass;
+
+    if(connected){
+      (document.querySelector('#wifi-status') as HTMLElement).style.color = "green"
+      this.hideConnectingAlert()
+
+    }else{
+      (document.querySelector('#wifi-status') as HTMLElement).style.color = "red"
+      this.presentConnectingAlert()
 
     }
+  }
+
+  /**
+   * For showing ui elements in dev mode
+   */
+  isDev(){
+    return Constants.DEV;
+  }
+
+  /**
+   * Present Loading-Spinner in UI
+   */
+
+  async presentConnectingAlert() {
+
+
+    (await this.reconnectingAlert).present();
+  }
+
+  async hideConnectingAlert() {
+
+    (await this.reconnectingAlert).dismiss();
 
   }
 
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Updating...',
-      duration: 500
-    });
-    await loading.present();
-
-    const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
-  }
 
 }

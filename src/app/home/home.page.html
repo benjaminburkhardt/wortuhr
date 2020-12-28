@@ -7,7 +7,7 @@
       Meine Wortuhr
     </ion-title>
     <ion-button slot="secondary" color="none">
-      <ion-icon name="wifi" style="color: green" ></ion-icon>
+      <ion-icon  id="wifi-status" name="wifi" ></ion-icon>
       </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -15,14 +15,13 @@
 
 
 <ion-content [fullscreen]="true" on-touchend="updateRGB()">
-
   <div id="container"  class="center">
     <h3>Farbe wählen</h3>
     <br>
     <center><div id="picker"></div></center>
 <br>
 
-    <ion-button expand="block" (click)="updateRGB()">Senden</ion-button>
+    <ion-button *ngIf="isDev()" id="dev-button" expand="block" (click)="updateRGB()">Senden</ion-button>
 
   </div>
 

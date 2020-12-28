@@ -13,8 +13,9 @@ IONIC App to control the Wortuhr
 
 - Run simulation server in /dev-server with: ```python server.py 8009```
 - Set DEV in Constants.ts to true
-- Build Ionic app with. ``ìonic build```
+- Build Ionic app with. ```ionic build```
 - Run Ionic app with: ```ionic server```
+- Preview webapp in browser: ```http://localhost:4200/```
 
 ## API Defintion
 
