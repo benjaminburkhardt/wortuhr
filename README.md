@@ -17,7 +17,30 @@ IONIC App to control the Wortuhr
 - Run Ionic app with: ```ionic server```
 - Preview webapp in browser: ```http://localhost:4200/```
 
-## API Defintion
+## How to depoly to iOS
+
+### A. Build and open in Xcode
+
+```$ ionic capacitor copy ios```
+```$ ionic capacitor open ios```
+
+### B. Deploy to device automatically
+
+```$ ionic capacitor run ios -l --external```
+
+
+## API Definition
+
+### Values & Ranges
+
+| value | meaning    | range   |
+|-------|------------|---------|
+| r     | red        | 100-355 |
+| g     | green      | 100-355 |
+| b     | blue       | 100-355 |
+| br    | brightness | 100-200 |
+
+### Endpoints
 
 #### Request: /api/get_rgb
 #### Response:

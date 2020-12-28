@@ -23,10 +23,17 @@ function createColorPicker(){
  * @returns {{r: *, b: *, g: *}}
  */
 function getPickerParameters(){
+
+    var brightness = Math.round((Math.round(colorPicker.color.hsv.v/100*255) / 255) * 100) + 100;
+
+
+    colorPicker.color.hsv = { v: 100 };
+
     var red = colorPicker.color.red + 100;
     var green = colorPicker.color.green + 100;
     var blue = colorPicker.color.blue + 100;
-    var brightness = Math.round((Math.round(colorPicker.color.hsv.v/100*255) / 255) * 100) + 100;
+
+    colorPicker.color.hsv = { v: brightness-100 };
 
     console.log("R "+red);
     console.log("G "+green);
@@ -38,7 +45,8 @@ function getPickerParameters(){
     var params = {
         r: red,
         g: green,
-        b: blue}
+        b: blue,
+        br: brightness}
 
     return params;
 }
@@ -57,6 +65,6 @@ function updatePickerWithRgb(red, blue, green, brightness){
     colorPicker.color.green = green;
 
     console.log("received brightness: "+brightness)
-    colorPicker.color.hsv = { v: (brightness-100) };
+    colorPicker.color.hsv = { v: (brightness) };
 }
 
