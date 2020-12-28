@@ -19,6 +19,7 @@ declare function updatePickerWithRgb(red, blue, green, brightness): any;
 export class HomePage implements OnInit{
 
   private reconnectingAlert: Promise<HTMLIonLoadingElement>;
+  private serverError:boolean;
 
   ngOnInit(): void {
     this.reconnectingAlert = this.loadingController.create({
@@ -33,6 +34,7 @@ export class HomePage implements OnInit{
    * Called right after UI is drawn
    */
   ngAfterContentInit() {
+    this.serverError = false;
     createColorPicker();
     this.updatePickerWithCurrentRgb();
 
@@ -102,7 +104,7 @@ export class HomePage implements OnInit{
         .then(response => {
           if(response.ok) {
             var json = response.body
-            updatePickerWithRgb(json["rgb"].r, json["rgb"].g, json["rgb"].b, json["rgb"].br)
+            updatePickerWithRgb(json["rgb"].r-100, json["rgb"].g-100, json["rgb"].b-100, json["rgb"].br-100)
           }
         })
         .catch(response => {
@@ -145,8 +147,6 @@ export class HomePage implements OnInit{
 
   updateWifiStatus(connected: boolean){
 
-    var newClass;
-
     if(connected){
       (document.querySelector('#wifi-status') as HTMLElement).style.color = "green"
       this.hideConnectingAlert()
@@ -170,14 +170,17 @@ export class HomePage implements OnInit{
    */
 
   async presentConnectingAlert() {
-
-
+    this.serverError = true;
     (await this.reconnectingAlert).present();
   }
 
   async hideConnectingAlert() {
-
     (await this.reconnectingAlert).dismiss();
+
+    if(this.serverError){
+      this.serverError = false;
+      this.updatePickerWithCurrentRgb();
+    }
 
   }
 

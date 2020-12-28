@@ -45,11 +45,17 @@ function getPickerParameters(){
 
 // TODO: Trigger this as soon as picker is created!
 function updatePickerWithRgb(red, blue, green, brightness){
-    console.log(red)
+
     colorPicker.color.red = red;
     colorPicker.color.blue = blue;
     colorPicker.color.green = green;
-   // TODO: Brightness!
+
+    console.log("brightness: "+brightness)
+
+    colorPicker.color.hsv = { v: (brightness/255)*100 };
+
+
+    // TODO: Brightness!
 
 }
 
