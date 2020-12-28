@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
-import { LoadingController } from '@ionic/angular';
+import {AlertController, LoadingController} from '@ionic/angular';
 
 import { Constants } from "../Constants";
 
@@ -28,7 +28,7 @@ export class HomePage implements OnInit{
     });
   }
 
-  constructor(private http: HttpClient, public loadingController: LoadingController) {}
+  constructor(private http: HttpClient, public loadingController: LoadingController, public alertController: AlertController) {}
 
   /**
    * Called right after UI is drawn
@@ -182,6 +182,42 @@ export class HomePage implements OnInit{
       this.updatePickerWithCurrentRgb();
     }
 
+  }
+
+  async presentAlert() {
+    var msg = ""
+    if(Constants.DEV){
+      msg = "You are in DEV mode.<br>Address: "+Constants.getServerAddr();
+    }else{
+      msg = "You are in PROD mode.<br>Address: "+Constants.getServerAddr();
+    }
+    msg = msg + "<br> Change mode?"
+
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'DEV Server',
+      message: 'Current server: '+Constants.getServerAddr()+"<br>"+"",
+      buttons: [
+        {
+          text: 'DEV',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            Constants.DEV = true;
+          }
+        }, {
+          text: 'PROD',
+          handler: () => {
+            Constants.DEV = false;
+          }
+        }
+      ]
+    });
+
+
+    await alert.present();
+
+    await alert.present();
   }
 
 

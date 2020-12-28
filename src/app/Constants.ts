@@ -1,5 +1,5 @@
 export abstract class Constants {
-    static readonly DEV: boolean = true
+    static DEV: boolean = true
     static readonly DEV_SERVER: string = "http://192.168.0.74:8009"
     static readonly PROD_SERVER: string = "http://wortuhr/pixelgraphic"
 
