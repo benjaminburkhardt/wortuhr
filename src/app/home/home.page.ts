@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { Options } from "@angular-slider/ngx-slider";
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {AlertController, LoadingController} from '@ionic/angular';
 
@@ -20,12 +21,29 @@ export class HomePage implements OnInit{
 
   private reconnectingAlert: Promise<HTMLIonLoadingElement>;
   private serverError:boolean;
+  isApp:boolean;
+
+  // Slider
+  minValue: number = 6;
+  maxValue: number = 24;
+  options: Options = {
+    floor: 0,
+    ceil: 24,
+    step: 1,
+    showTicks: true
+  };
+
 
   ngOnInit(): void {
     this.reconnectingAlert = this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Connecting...',
     });
+
+    this.isApp = !document.URL.startsWith('http');
+    if(this.isApp){
+      Constants.DEV = false;
+    }
   }
 
   constructor(private http: HttpClient, public loadingController: LoadingController, public alertController: AlertController) {}
@@ -219,6 +237,8 @@ export class HomePage implements OnInit{
 
     await alert.present();
   }
+
+
 
 
 }

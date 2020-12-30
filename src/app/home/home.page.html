@@ -13,12 +13,37 @@
 </ion-header>
 
 
-
-<ion-content [fullscreen]="true" on-touchend="updateRGB()">
+<ion-content [fullscreen]="true">
   <div id="container"  class="center">
-    <h3>Farbe wählen</h3>
-    <br>
-    <center><div id="picker"></div></center>
+
+    <!-- Color Picker -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Farbe</ion-card-title>
+        <ion-card-subtitle>Farbe der Uhr anpassen</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <center><div id="picker" on-touchend="updateRGB()"></div></center>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Nachtschaltung -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Zeitschaltung</ion-card-title>
+        <ion-card-subtitle>Definiere den Zeitraum in dem die Uhr eingeschaltet/beleuchtet sein soll.</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>Has to be repacled by circluar slider...</p>
+        <div class="custom-slider">
+          <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
 <br>
 
     <ion-button *ngIf="isDev()" id="dev-button" expand="block" (click)="updateRGB()">Senden</ion-button>
