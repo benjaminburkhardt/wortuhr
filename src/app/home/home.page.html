@@ -6,7 +6,7 @@
     <ion-title>
       Meine Wortuhr
     </ion-title>
-    <ion-button slot="secondary" color="none" (click)="presentAlert()">
+    <ion-button slot="secondary" color="none" (click)="presentAlert();">
       <!-- <ion-text id="wifi-status-text">Verbinden... &nbsp;</ion-text> -->
       <ion-icon  id="wifi-status" name="wifi" style="color: red;" ></ion-icon>
       </ion-button>
@@ -74,8 +74,8 @@
       <ion-card-content>
 
         <ion-item>
-          <ion-input value="{{getCurrentServerUrl()}}" (ionChange)="onChangeServerUrl($event.target.value)">Server &nbsp;&nbsp;</ion-input>
-          <button clear slot="end">Set</button>
+          <ion-input #serverInput value="{{getCurrentServerUrl()}}" (ionChange)="onChangeServerUrl($event.target.value)">Server &nbsp;&nbsp;</ion-input>
+         <!-- <button slot="end" (click)="this.serverInput.setBlur();">Set</button> -->
         </ion-item>
       </ion-card-content>
     </ion-card>
