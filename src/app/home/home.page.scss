@@ -1,11 +1,6 @@
 #container {
   text-align: center;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 
@@ -19,14 +14,26 @@ ion-button{
   --box-shadow:none;
 }
 
-ion-content {
+// Disable scrolling
+/*ion-content {
   --overflow: hidden;
-}
+}*/
 
 @media (prefers-color-scheme: dark) {
   :root {
     /* dark mode variables go here */
   }
+}
+
+
+.quick-color-circle{
+  border-radius: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.quick-color-table td{
+  padding:0 15px;
 }
 
 #container strong {

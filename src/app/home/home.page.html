@@ -7,14 +7,15 @@
       Meine Wortuhr
     </ion-title>
     <ion-button slot="secondary" color="none" (click)="presentAlert()">
-      <ion-icon  id="wifi-status" name="wifi" ></ion-icon>
+      <!-- <ion-text id="wifi-status-text">Verbinden... &nbsp;</ion-text> -->
+      <ion-icon  id="wifi-status" name="wifi" style="color: red;" ></ion-icon>
       </ion-button>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content [fullscreen]="true">
-  <div id="container"  class="center">
+  <div id="container">
 
     <!-- Color Picker -->
     <ion-card>
@@ -24,7 +25,26 @@
       </ion-card-header>
 
       <ion-card-content>
-        <center><div id="picker" on-touchend="updateRGB()"></div></center>
+        <center>
+          <div id="picker" on-touchend="updateRGB()"></div>
+          <br>
+          <table class="quick-color-table">
+            <tr>
+              <td>
+                <div (click)="updateWithQuickColor(254, 0, 0)" class="quick-color-circle" style="background-color: red;" id="quick-red"></div>
+              </td>
+              <td>
+                <div (click)="updateWithQuickColor(0, 0, 254)" class="quick-color-circle" style="background-color: blue;" id="quick-blue"></div>
+              </td>
+              <td>
+                <div (click)="updateWithQuickColor(226, 0, 116)" class="quick-color-circle" style="background-color: magenta;" id="quick-magenta"></div>
+              </td>
+            </tr>
+          </table>
+
+
+        </center>
+
       </ion-card-content>
     </ion-card>
 
@@ -41,6 +61,22 @@
           <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
         </div>
 
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Settings -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Entwickler Einstellungen</ion-card-title>
+        <ion-card-subtitle>Diese Einstellungen werden nur für Entwickler angezeigt.</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-item>
+          <ion-input value="{{getCurrentServerUrl()}}" (ionChange)="onChangeServerUrl($event.target.value)">Server &nbsp;&nbsp;</ion-input>
+          <button clear slot="end">Set</button>
+        </ion-item>
       </ion-card-content>
     </ion-card>
 

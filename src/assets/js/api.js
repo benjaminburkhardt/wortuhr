@@ -58,7 +58,7 @@ function getPickerParameters(){
  * @param green
  * @param brightness
  */
-function updatePickerWithRgb(red, blue, green, brightness){
+function updatePickerWithRgb(red, green, blue, brightness){
 
     colorPicker.color.red = red;
     colorPicker.color.blue = blue;

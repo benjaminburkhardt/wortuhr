@@ -81,8 +81,17 @@ export class HomePage implements OnInit{
         .then(response => {
           this.responseHandler(response, pickerParameters);
         })
-        .catch(console.log);
+        .catch(console.log)
+
   }
+
+  updateWithQuickColor(r, g, b) {
+    updatePickerWithRgb(r, g, b, 100);
+    this.updateRGB();
+  }
+
+
+
 
   /**
    * Handle Response for updating RGB
@@ -140,6 +149,11 @@ export class HomePage implements OnInit{
    * Checks if connection is available and updates wifi icon
    */
   checkWifiConnection(){
+
+    console.log("Checking WIFI connection...")
+
+
+
     this.http.get(Constants.getServerAddr(), {
       observe: 'response'
     })
@@ -158,6 +172,23 @@ export class HomePage implements OnInit{
         });
   }
 
+  // Settings
+
+  /**
+   * Set custom server address via settings card
+   * @param address
+   */
+  onChangeServerUrl(address){
+    Constants.setCustomServerAddr(address);
+  }
+
+  /**
+   * Returns current server url for UI
+   */
+  getCurrentServerUrl(){
+    return Constants.getServerAddr();
+  }
+
 
   // ===================================
   // UI
@@ -166,12 +197,17 @@ export class HomePage implements OnInit{
   updateWifiStatus(connected: boolean){
 
     if(connected){
-      (document.querySelector('#wifi-status') as HTMLElement).style.color = "green"
+      (document.querySelector('#wifi-status') as HTMLElement).style.color = "green";
+      (document.querySelector('#wifi-status-text') as HTMLElement).innerHTML = "Verbunden &nbsp;";
       this.hideConnectingAlert()
 
     }else{
-      (document.querySelector('#wifi-status') as HTMLElement).style.color = "red"
-      this.presentConnectingAlert()
+      (document.querySelector('#wifi-status') as HTMLElement).style.color = "red";
+      (document.querySelector('#wifi-status-text') as HTMLElement).innerHTML = "Fehler &nbsp;";
+
+
+      // Alert disabled for dev...
+      // this.presentConnectingAlert()
 
     }
   }
